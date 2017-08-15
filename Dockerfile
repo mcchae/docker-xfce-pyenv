@@ -55,42 +55,54 @@ RUN apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/community
     && apk add --allow-untrusted /tmp/glibc*.apk \
     && /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib \
     && /usr/glibc-compat/bin/localedef -i ko_KR -f UTF-8 ko_KR.UTF-8 \
-    && rm -rf /tmp/glibc*apk /var/cache/apk/* \
-    && update-ca-certificates
+    && rm -rf /tmp/glibc*apk /var/cache/apk/*
+#    && update-ca-certificates
 
-## package prepare for pyenv
-#RUN apk add --no-cache --update \
-#      bash \
-#      build-base \
-#      ca-certificates \
-#      git \
-#      bzip2-dev \
-#      linux-headers \
-#      ncurses-dev \
-#      openssl \
-#      openssl-dev \
-#      readline-dev \
-#      sqlite-dev \
-#    && update-ca-certificates \
-#    && rm -rf /var/cache/apk/*
+# package prepare for pyenv
+RUN apk add --no-cache --update \
+      bash \
+      build-base \
+      ca-certificates \
+      git \
+      bzip2-dev \
+      linux-headers \
+      ncurses-dev \
+      openssl \
+      openssl-dev \
+      readline-dev \
+      sqlite-dev \
+    && update-ca-certificates \
+    && rm -rf /var/cache/apk/*
 
 # pyenv install
+RUN mkdir -p /usr/local/toor && chown -R toor:toor /usr/local/toor \
+    && rm /bin/sh && ln -s /bin/bash /bin/sh
 USER toor
-ENV HOME=/home/toor \
+ENV HOME=/usr/local/toor \
     SHELL=/bin/bash
 WORKDIR /home/toor
 ENV PYTHON_VERSION=${PYTHON_VERSION:-3.5.3}
 ENV PYENV_ROOT=${HOME}/.pyenv
 ENV PATH=${PYENV_ROOT}/bin:${PATH}
-RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
+RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
     && touch ${HOME}/.bashrc \
     && /bin/bash -x ${HOME}/pyenv-installer.sh \
-    && rm -f ${HOME}/pyenv-installer.sh
+    && rm -f ${HOME}/pyenv-installer.sh \
+    # Create a file of the pyenv init commands
+    && echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /tmp/pyenvinit \
+    && echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /tmp/pyenvinit \
+    && echo 'eval "$(pyenv init -)"' >> /tmp/pyenvinit \
+    && echo 'eval "$(pyenv virtualenv-init -)"' >> /tmp/pyenvinit \
+    && source /tmp/pyenvinit \
+    && pyenv install $PYTHON_VERSION \
+    && pyenv global $PYTHON_VERSION \
+    && pip install --upgrade pip \
+    && pyenv rehash
 
 USER root
 ADD chroot/usr /usr
-RUN cp -R ${HOME}/.pyenv /usr/local/toor
+#RUN cp -R ${HOME}/.pyenv /usr/local/toor
 WORKDIR /
-#ENV HOME=/home/toor \
-#    SHELL=/bin/bash
+ENV HOME=/home/toor \
+    SHELL=/bin/bash
 ENTRYPOINT ["bash", "-x", "/startup.sh"]
