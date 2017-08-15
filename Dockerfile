@@ -82,23 +82,10 @@ WORKDIR /home/toor
 ENV PYTHON_VERSION=${PYTHON_VERSION:-3.5.3}
 ENV PYENV_ROOT=${HOME}/.pyenv
 ENV PATH=${PYENV_ROOT}/bin:${PATH}
-RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | sh
-
-#RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o /pyenv-installer && \
-#      touch /root/.bashrc && \
-#      /bin/ln -s /root/.bashrc /root/.bash_profile && \
-#      /bin/bash /pyenv-installer && \
-#      rm /pyenv-installer && \
-
-#USER root
-#WORKDIR /
-#ADD chroot/usr /usr
-#RUN cp -R /home/toor/.pyenv /usr/local/toor
-
-### next are defiened in mcchae/xfce Dockerfile
-#ENV HOME=/home/toor \
-#    SHELL=/bin/bash
-#ENTRYPOINT ["bash", "/startup.sh"]
+RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
+    && touch ${HOME}/.bashrc \
+    && /bin/bash -x ${HOME}/pyenv-installer.sh \
+    && rm -f ${HOME}/pyenv-installer.sh
 
 USER root
 WORKDIR /
