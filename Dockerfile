@@ -88,8 +88,9 @@ RUN curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/py
     && rm -f ${HOME}/pyenv-installer.sh
 
 USER root
-WORKDIR /
 ADD chroot/usr /usr
+RUN cp -R ${HOME}/.pyenv /usr/local/toor
+WORKDIR /
 #ENV HOME=/home/toor \
 #    SHELL=/bin/bash
 ENTRYPOINT ["bash", "-x", "/startup.sh"]
