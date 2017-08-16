@@ -65,15 +65,6 @@ RUN apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/community
 ################################################################################
 # package prepare for pyenv
 ################################################################################
-#RUN apk add --no-cache --update \
-#      bash \
-#      ca-certificates \
-#      git \
-#      ncurses-dev \
-#      readline-dev \
-#      openssl \
-#    && update-ca-certificates \
-#    && rm -rf /var/cache/apk/*
 RUN apk add --no-cache --update \
       bash \
       build-base \
@@ -105,17 +96,17 @@ ENV PATH=${PYENV_ROOT}/bin:${PATH}
 RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
     && touch ${HOME}/.bashrc \
     && /bin/bash -x ${HOME}/pyenv-installer.sh \
-    && rm -f ${HOME}/pyenv-installer.sh \
+    && rm -f ${HOME}/pyenv-installer.sh
     # Create a file of the pyenv init commands
-    && echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /tmp/pyenvinit \
-    && echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /tmp/pyenvinit \
-    && echo 'eval "$(pyenv init -)"' >> /tmp/pyenvinit \
-    && echo 'eval "$(pyenv virtualenv-init -)"' >> /tmp/pyenvinit \
-    && source /tmp/pyenvinit \
-    && pyenv install $PYTHON_VERSION \
-    && pyenv global $PYTHON_VERSION \
-    && pip install --upgrade pip \
-    && pyenv rehash
+#    && echo 'export PYENV_ROOT="$HOME/.pyenv"' >> /tmp/pyenvinit \
+#    && echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> /tmp/pyenvinit \
+#    && echo 'eval "$(pyenv init -)"' >> /tmp/pyenvinit \
+#    && echo 'eval "$(pyenv virtualenv-init -)"' >> /tmp/pyenvinit \
+#    && source /tmp/pyenvinit \
+#    && pyenv install $PYTHON_VERSION \
+#    && pyenv global $PYTHON_VERSION \
+#    && pip install --upgrade pip \
+#    && pyenv rehash
 
 
 ################################################################################
