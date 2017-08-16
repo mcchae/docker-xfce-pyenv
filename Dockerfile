@@ -4,7 +4,9 @@ FROM mcchae/xfce
 MAINTAINER MoonChang Chae mcchae@gmail.com
 LABEL Description="alpine desktop env with conda (over xfce with novnc, xrdp and openssh server)"
 
+################################################################################
 # install openjdk8
+################################################################################
 RUN { \
         echo '#!/bin/sh'; \
         echo 'set -e'; \
@@ -36,7 +38,9 @@ RUN wget https://download.jetbrains.com/python/$PYCHARM_VER.tar.gz \
 
 WORKDIR /
 
+################################################################################
 # conda need glibc instead of musl libc
+################################################################################
 RUN apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/community add \
     bash \
     git \
@@ -58,7 +62,18 @@ RUN apk --update  --repository http://dl-4.alpinelinux.org/alpine/edge/community
     && rm -rf /tmp/glibc*apk /var/cache/apk/*
 #    && update-ca-certificates
 
+################################################################################
 # package prepare for pyenv
+################################################################################
+#RUN apk add --no-cache --update \
+#      bash \
+#      ca-certificates \
+#      git \
+#      ncurses-dev \
+#      readline-dev \
+#      openssl \
+#    && update-ca-certificates \
+#    && rm -rf /var/cache/apk/*
 RUN apk add --no-cache --update \
       bash \
       build-base \
@@ -66,15 +81,18 @@ RUN apk add --no-cache --update \
       git \
       bzip2-dev \
       linux-headers \
-      ncurses-dev \
       openssl \
       openssl-dev \
+      ncurses-dev \
       readline-dev \
       sqlite-dev \
     && update-ca-certificates \
     && rm -rf /var/cache/apk/*
 
+################################################################################
 # pyenv install
+################################################################################
+# next pyenv need bash
 RUN mkdir -p /usr/local/toor && chown -R toor:toor /usr/local/toor \
     && rm /bin/sh && ln -s /bin/bash /bin/sh
 USER toor
@@ -99,6 +117,10 @@ RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/p
     && pip install --upgrade pip \
     && pyenv rehash
 
+
+################################################################################
+# main
+################################################################################
 USER root
 ADD chroot/usr /usr
 #RUN cp -R ${HOME}/.pyenv /usr/local/toor
