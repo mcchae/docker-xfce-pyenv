@@ -107,7 +107,8 @@ RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/p
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION \
     && pip install --upgrade pip \
-    && pyenv rehash
+    && pyenv rehash \
+    && git clone git://github.com/kennethreitz/autoenv.git ${HOME}/.autoenv
 
 
 ################################################################################
