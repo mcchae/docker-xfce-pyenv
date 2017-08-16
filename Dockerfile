@@ -1,5 +1,3 @@
-# FROM mcchae/jdk8
-#FROM mcchae/conda-jdk8
 FROM mcchae/xfce
 MAINTAINER MoonChang Chae mcchae@gmail.com
 LABEL Description="alpine desktop env with conda (over xfce with novnc, xrdp and openssh server)"
