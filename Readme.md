@@ -7,7 +7,7 @@
 * pyenv : `/home/toor/.pyenv`에 pyenv을 설치해 놓았습니다. 해당 명령의 설명은 아래에 따로 기술하겠습니다.
 * openjdk8 : alpine용 openjdk 버전 8을 설치하였습니다.
 * xfce-termninal : 기본 터미널에 uim-byeoru 한글 입력기를 활성화 시켜 놓았습니다. (한영 전환은 Shift+Space 입니다)
-* firefox : 기본 웹 브라우저로 파이어폭스를 설치하였습니다.
+* firefox : 기본 웹 브라우저로 설치하였습니다.
 * pyCharm : Community Edition 2017.2 버전의 pyCharm IDE를 설치하였습니다.
 
 
