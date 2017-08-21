@@ -70,9 +70,9 @@ RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/p
     && pyenv install $PYTHON_VERSION \
     && pyenv global $PYTHON_VERSION \
     && pip install --upgrade pip \
-    && pyenv rehash \
-    && if [ ! -d ${HOME}/.autoenv ];then git clone git://github.com/kennethreitz/autoenv.git ${HOME}/.autoenv; fi
-
+    && pyenv rehash
+#    && if [ ! -d ${HOME}/.autoenv ];then git clone git://github.com/kennethreitz/autoenv.git ${HOME}/.autoenv; fi
+# autoenv는 docker-xfce에 /usr/local/toor/.autoenv 에 넣어둠
 
 ################################################################################
 # main
