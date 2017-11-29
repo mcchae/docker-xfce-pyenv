@@ -4,7 +4,7 @@
 
 ## 작업 내용
 
-* pyenv : `/home/toor/.pyenv`에 pyenv을 설치해 놓았습니다. 해당 명령의 설명은 아래에 따로 기술하겠습니다.
+* pyenv : `/root/.pyenv`에 pyenv을 설치해 놓았습니다. 해당 명령의 설명은 아래에 따로 기술하겠습니다.
 * openjdk8 : alpine용 openjdk 버전 8을 설치하였습니다.
 * xfce-termninal : 기본 터미널에 uim-byeoru 한글 입력기를 활성화 시켜 놓았습니다. (한영 전환은 Shift+Space 입니다)
 * firefox : 기본 웹 브라우저로 설치하였습니다.
@@ -27,7 +27,7 @@ docker container run -it \
 	--hostname $MYDT \
 	-p $HP_RDP:3389 \
 	-p $HP_NOVNC:6081 \
-	-v /dhv/xfce/toor:/home/toor \
+	-v /dhv/xfce/root:/root \
 	mcchae/xfce-pyenv
 ```
 
@@ -49,16 +49,16 @@ services:
      - "33899:3389"
      - "60811:6081"
     volumes:
-     - ${HOME}/dhv/toor:/home/toor
-     - ${HOME}/work:/home/toor/work
+     - ${HOME}/dhv/root:/root
+     - ${HOME}/work:/root/work
 ```
 
 > * `VNC_GEOMETRY` 환경변수는 해상도를 지정합니다. xrdp 또는 noVNC 모두 적용됩니다. (위의 예에서는 1440x900 해상도로 지정하였습니다)
 > * `3389` 포트는 외부로 노출될 원격데스크탑 포트입니다. (위의 예에서는 33899 포트로 접근 가능합니다)
 > * `6081` 포트는 외부로 노출될 noVNC 포트입니다. (위의 예에서는 60811 포트로 접근 가능합니다)
-> * docker를 돌리는 호스트에 `$HOME/dhv`라는 폴더가 있고 이 폴더에 있는 `toor` 디렉터리가 docker 컨테이너의 `/home/toor` 디렉터리로 볼륨 마운트되어 toor 홈 폴더는 영속성을 갖습니다
-> * `$HOME/work` 라는 폴더에 모든 프로젝트가 있고 작업을 하는데 이것이 컨테이너의 `/home/toor/work`로 볼륨 마운트되어 프로젝트 작업을 합니다
-> * 윈도우인 경우에는 볼륨 마운트에서 `//c/Users/mcchae/dhv/toor:/home/toor` (사용자가 mcchae 라고 가정) 와 같은 방식으로 마운트 합니다. (윈도우 docker가 디폴트로 해당 사용자 부분을 마운트 가능하도록 해 놓았습니다)
+> * docker를 돌리는 호스트에 `$HOME/dhv`라는 폴더가 있고 이 폴더에 있는 `root` 디렉터리가 docker 컨테이너의 `/root` 디렉터리로 볼륨 마운트되어 root 홈 폴더는 영속성을 갖습니다
+> * `$HOME/work` 라는 폴더에 모든 프로젝트가 있고 작업을 하는데 이것이 컨테이너의 `/root/work`로 볼륨 마운트되어 프로젝트 작업을 합니다
+> * 윈도우인 경우에는 볼륨 마운트에서 `//c/Users/mcchae/dhv/root:/root` (사용자가 mcchae 라고 가정) 와 같은 방식으로 마운트 합니다. (윈도우 docker가 디폴트로 해당 사용자 부분을 마운트 가능하도록 해 놓았습니다)
 
 그 다음, 다음과 같이 실행합니다.
 
@@ -238,7 +238,7 @@ $ echo "pyenv activate py27" > .env
 
 [conda](https://conda.io/docs/intro.html)는 Python 뿐만 아니라 R, Java, JavaScript, C/C++, FORTRAN 등의 언어에 대한 패키지 관리자라 할 수 있습니다. 파이썬과 같은 경우 이미 `pip` 패키지 관리자로 설치를 하고 `virtualenv` 명령으로 특정 인터프리터 환경을 갖추어 사용하는데 conda는 이런 두 가지 기능을 모두 가지고 있다고 보면 됩니다. ([해당 블로그](http://mcchae.egloos.com/11267105) 참조)
 
-다음은 위의 pyenv 하에서 conda를 이용하여 toor 환경에서 관리하는 방법을 설명하겠습니다.
+다음은 위의 pyenv 하에서 conda를 이용하여 root 환경에서 관리하는 방법을 설명하겠습니다.
 
 #### miniconda 설치
 
@@ -273,9 +273,9 @@ Current conda install:
        root environment : /opt/conda  (read only)
     default environment : /opt/conda
        envs directories : /opt/conda/envs
-                          /home/toor/.conda/envs
+                          /root/.conda/envs
           package cache : /opt/conda/pkgs
-                          /home/toor/.conda/pkgs
+                          /root/.conda/pkgs
            channel URLs : https://repo.continuum.io/pkgs/free/linux-64
                           https://repo.continuum.io/pkgs/free/noarch
                           https://repo.continuum.io/pkgs/r/linux-64
@@ -288,7 +288,7 @@ Current conda install:
                 UID:GID : 1000:1000
 ```
 
-위에서 envs를 확인해 보면 현재 홈(`/home/toor`) 안에 `.conda/envs` 를 같이 참조함을 알 수 있습니다.
+위에서 envs를 확인해 보면 현재 홈(`/root`) 안에 `.conda/envs` 를 같이 참조함을 알 수 있습니다.
 
 #### create
 
@@ -303,10 +303,10 @@ Current conda install:
 
 ```sh
 (conda) $ pyenv virtualenvs
-* conda3 (created from /home/toor/.pyenv/versions/conda3)
-  miniconda3-4.0.5 (created from /home/toor/.pyenv/versions/miniconda3-4.0.5)
-  miniconda3-4.0.5/envs/conda3 (created from /home/toor/.pyenv/versions/miniconda3-4.0.5/envs/conda3)
-  miniconda3-4.0.5/envs/cpy34 (created from /home/toor/.pyenv/versions/miniconda3-4.0.5/envs/cpy34)
+* conda3 (created from /root/.pyenv/versions/conda3)
+  miniconda3-4.0.5 (created from /root/.pyenv/versions/miniconda3-4.0.5)
+  miniconda3-4.0.5/envs/conda3 (created from /root/.pyenv/versions/miniconda3-4.0.5/envs/conda3)
+  miniconda3-4.0.5/envs/cpy34 (created from /root/.pyenv/versions/miniconda3-4.0.5/envs/cpy34)
 ```
 위에 나온 환경을 바꿔 가면서 활성화시킬 수 있습니다.
 
@@ -325,7 +325,7 @@ Current conda install:
 ```sh
 (miniconda3-4.0.5/envs/cpy34) $ conda list
 $ conda list
-# packages in environment at /home/toor/.conda/envs/py36:
+# packages in environment at /root/.conda/envs/py36:
 #
 openssl                   1.0.2l                        0  
 pip                       9.0.1                    py36_1  

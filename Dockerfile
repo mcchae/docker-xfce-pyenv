@@ -49,10 +49,10 @@ RUN apk add --no-cache --update \
 # next pyenv need bash
 RUN mkdir -p /usr/local/toor && chown -R toor:toor /usr/local/toor \
     && rm /bin/sh && ln -s /bin/bash /bin/sh
-USER toor
+USER root
 ENV HOME=/usr/local/toor \
     SHELL=/bin/bash
-WORKDIR /home/toor
+WORKDIR /root
 #ENV PYTHON_VERSION=${PYTHON_VERSION:-3.5.3}
 ENV PYTHON_VERSION=${PYTHON_VERSION:-3.6.2}
 ENV PYENV_ROOT=${HOME}/.pyenv
@@ -81,6 +81,6 @@ USER root
 ADD chroot/usr /usr
 #RUN cp -R ${HOME}/.pyenv /usr/local/toor
 WORKDIR /
-ENV HOME=/home/toor \
+ENV HOME=/root \
     SHELL=/bin/bash
 ENTRYPOINT ["bash", "/startup.sh"]
