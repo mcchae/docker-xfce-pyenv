@@ -9,3 +9,11 @@ services:
     volumes:
       - ${HOME}/dhv/root:/root
       - ${HOME}/work:/root/work
+
+  license_server:
+    environment:
+      ENV COMPOSE_CONVERT_WINDOWS_PATHS: 1
+    image: hack-dvt:latest
+    container_name: hack_dvt
+    ports:
+      - "1337:1337"
