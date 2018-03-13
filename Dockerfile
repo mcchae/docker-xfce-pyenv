@@ -48,7 +48,7 @@ RUN apk add --no-cache --update \
 ################################################################################
 # next pyenv need bash
 RUN mkdir -p /usr/local/toor && chown -R toor:toor /usr/local/toor \
-    && rm /bin/sh && ln -s /bin/bash /bin/sh
+    && mv /bin/sh /bin/sh.org && ln -s /bin/bash /bin/sh
 USER root
 ENV HOME=/usr/local/toor \
     SHELL=/bin/bash
