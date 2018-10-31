@@ -54,7 +54,7 @@ ENV HOME=/usr/local/toor \
     SHELL=/bin/bash
 WORKDIR /root
 #ENV PYTHON_VERSION=${PYTHON_VERSION:-3.5.3}
-ENV PYTHON_VERSION=${PYTHON_VERSION:-3.6.2}
+ENV PYTHON_VERSION=${PYTHON_VERSION:-3.6.6}
 ENV PYENV_ROOT=${HOME}/.pyenv
 ENV PATH=${PYENV_ROOT}/bin:${PATH}
 RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
