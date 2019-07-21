@@ -44,6 +44,14 @@ RUN apk add --no-cache --update \
     && rm -rf /var/cache/apk/*
 
 ################################################################################
+# to solve error: 
+#   - zipimport.ZipImportError: can't decompress data; zlib not available
+#   - ModuleNotFoundError: No module named '_ctypes' : libffi-dev
+################################################################################
+RUN apk add build-base python-dev py-pip jpeg-dev zlib-dev libffi-dev
+ENV LIBRARY_PATH=/lib:/usr/lib
+
+################################################################################
 # pyenv install
 ################################################################################
 # next pyenv need bash
@@ -54,7 +62,8 @@ ENV HOME=/usr/local/toor \
     SHELL=/bin/bash
 WORKDIR /root
 #ENV PYTHON_VERSION=${PYTHON_VERSION:-3.5.3}
-ENV PYTHON_VERSION=${PYTHON_VERSION:-3.6.6}
+#ENV PYTHON_VERSION=${PYTHON_VERSION:-3.6.6}
+ENV PYTHON_VERSION=${PYTHON_VERSION:-3.7.3}
 ENV PYENV_ROOT=${HOME}/.pyenv
 ENV PATH=${PYENV_ROOT}/bin:${PATH}
 RUN  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer -o ${HOME}/pyenv-installer.sh \
